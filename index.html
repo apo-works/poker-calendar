@@ -8,559 +8,673 @@
 <title>ポーカー大会カレンダー 2026</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fff;color:#2C2C2A;font-size:14px;line-height:1.5}
-  h1{font-size:1.15rem;font-weight:700;padding:16px 16px 4px}
-  .subtitle{font-size:0.78rem;color:#888;padding:0 16px 12px}
-  .filters{display:flex;flex-wrap:wrap;gap:6px;padding:8px 16px 12px}
-  .filter-btn{border:none;border-radius:999px;padding:5px 14px;font-size:0.78rem;cursor:pointer;background:#F0F0EE;color:#555;transition:background 0.15s,color 0.15s}
-  .filter-btn.active{background:#2C2C2A;color:#fff}
-  .legend{display:flex;gap:14px;padding:0 16px 10px;font-size:0.75rem;color:#888;align-items:center}
-  .legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
-  .legend-dot.confirmed{background:#2C2C2A}
-  .legend-dot.unconfirmed{background:#bbb}
-  table{width:100%;border-collapse:collapse}
-  thead th{font-size:0.72rem;font-weight:600;color:#888;padding:6px 10px;border-bottom:1.5px solid #E8E8E6;text-align:left;position:sticky;top:0;background:#fff;z-index:10}
-  tbody tr{border-bottom:1px solid #F2F2F0;transition:background 0.1s}
-  tbody tr:hover{background:#FAFAF8}
-  td{padding:10px 10px;vertical-align:top}
-  .col-period{width:14%;font-size:0.82rem;color:#555}
-  .col-tour{width:9%}
-  .col-name{width:28%}
-  .col-fee{width:30%}
-  .col-rate{width:11%}
-  .badge{display:inline-block;border-radius:4px;padding:2px 7px;font-size:0.72rem;font-weight:600;white-space:nowrap}
-  .period-date{font-weight:600;font-size:0.85rem}
-  .period-label{font-size:0.72rem;color:#aaa;margin-top:2px}
-  .tour-name a{font-weight:600;font-size:0.88rem;color:#2C2C2A;text-decoration:none;border-bottom:1px solid #ccc}
-  .tour-name a:hover{border-bottom-color:#2C2C2A}
-  .tour-name span{font-weight:600;font-size:0.88rem}
-  .venue{font-size:0.78rem;color:#777;margin-top:2px}
-  .note{font-size:0.72rem;color:#aaa;margin-top:3px}
-  .fee-main{font-weight:600;font-size:0.88rem}
-  .fee-sub{font-size:0.75rem;color:#888;margin-top:2px}
-  .prize-block{margin-top:5px;border-top:1px dashed #EEE;padding-top:4px}
-  .prize-row{font-size:0.78rem;color:#444;line-height:1.6}
-  .prize-label{font-size:0.68rem;color:#aaa;margin-right:3px}
-  .prize-ref{font-size:0.68rem;color:#bbb;margin-left:3px}
-  .rate-bar-wrap{margin-top:4px;height:5px;background:#EEE;border-radius:3px;width:100%}
-  .rate-bar{height:5px;border-radius:3px}
-  .rate-label{font-size:0.78rem;color:#555;margin-bottom:2px}
-  .rate-ref{font-size:0.68rem;color:#bbb;margin-top:2px}
-  .unconfirmed{opacity:0.38}
-  footer{padding:16px;font-size:0.72rem;color:#aaa;border-top:1px solid #F0F0EE;margin-top:8px;line-height:1.8}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#2C2C2A;font-size:14px}
+  header{padding:16px 20px 8px;border-bottom:1px solid #eee}
+  h1{font-size:18px;font-weight:700;margin-bottom:2px}
+  .subtitle{font-size:12px;color:#888}
+  .filters{padding:12px 20px;display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid #eee}
+  .pill{padding:5px 12px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#555;transition:all 0.15s}
+  .pill.active{border-color:transparent;color:#fff}
+  .pill[data-tour="all"].active{background:#2C2C2A}
+  .pill[data-tour="JOPT"].active{background:#633806}
+  .pill[data-tour="戦国"].active{background:#712B13}
+  .pill[data-tour="SPADIE"].active{background:#72243E}
+  .pill[data-tour="USOP"].active{background:#2E5E10}
+  .pill[data-tour="P1"].active{background:#444441}
+  .pill[data-tour="XPT"].active{background:#2C4A6E}
+  .pill[data-tour="WPT"].active{background:#0C447C}
+  .pill[data-tour="GOP"].active{background:#3C3489}
+  .pill[data-tour="APT"].active{background:#085041}
+  .pill[data-tour="PPS"].active{background:#7A4100}
+  .table-wrap{overflow-x:auto;padding-bottom:20px}
+  table{width:100%;border-collapse:collapse;min-width:700px}
+  thead th{padding:8px 12px;text-align:left;font-size:11px;color:#888;border-bottom:2px solid #eee;white-space:nowrap}
+  tbody tr{border-bottom:1px solid #f0f0f0}
+  tbody tr:hover{background:#fafafa}
+  tbody tr.unconfirmed{opacity:0.38}
+  tbody tr.past{opacity:0.55}
+  td{padding:10px 12px;vertical-align:top}
+  .date-cell{white-space:nowrap;font-size:13px;min-width:120px}
+  .date-label{display:inline-block;font-size:10px;background:#f0f0f0;color:#666;padding:1px 6px;border-radius:3px;margin-top:2px}
+  .tour-badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+  .tour-JOPT{background:#FAEEDA;color:#633806}
+  .tour-戦国{background:#FAECE7;color:#712B13}
+  .tour-SPADIE{background:#FBEAF0;color:#72243E}
+  .tour-USOP{background:#EBF5E1;color:#2E5E10}
+  .tour-P1{background:#F1EFE8;color:#444441}
+  .tour-XPT{background:#EEF3F8;color:#2C4A6E}
+  .tour-GOP{background:#EEEDFE;color:#3C3489}
+  .tour-APT{background:#E1F5EE;color:#085041}
+  .tour-WPT{background:#E6F1FB;color:#0C447C}
+  .tour-PPS{background:#FFF3E0;color:#7A4100}
+  .name-cell{min-width:180px}
+  .event-name{font-weight:600;font-size:13px;margin-bottom:2px}
+  .event-name a{color:#2C2C2A;text-decoration:none}
+  .event-name a:hover{text-decoration:underline}
+  .venue{font-size:11px;color:#888;margin-top:2px}
+  .fee-cell{min-width:160px}
+  .fee-main{font-weight:600;font-size:12px;margin-bottom:3px}
+  .fee-sub{font-size:11px;color:#888;margin-bottom:6px}
+  .prize-row{display:flex;align-items:flex-start;font-size:11px;margin-bottom:2px}
+  .prize-icon{margin-right:4px;flex-shrink:0}
+  .prize-label{color:#888;margin-right:4px;white-space:nowrap}
+  .prize-value{font-weight:500}
+  .prize-ref{color:#aaa;font-size:10px;margin-left:4px}
+  .note{font-size:10px;color:#aaa;margin-top:6px;line-height:1.4}
+  .rate-cell{min-width:100px;font-size:11px}
+  .rate-pct{font-weight:700;font-size:13px;margin-bottom:2px}
+  .rate-bar-wrap{height:4px;background:#eee;border-radius:2px;margin-bottom:3px}
+  .rate-bar{height:4px;border-radius:2px}
+  .rate-ref{color:#aaa;font-size:10px}
+  .rate-none{color:#aaa}
+  .legend{display:flex;gap:16px;padding:12px 20px;font-size:11px;color:#888;border-top:1px solid #eee;margin-top:4px}
+  .legend-item{display:flex;align-items:center;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%}
+  .dot-confirmed{background:#2C2C2A}
+  .dot-unconfirmed{background:#ccc}
+  footer{padding:16px 20px;font-size:11px;color:#999;line-height:1.7;border-top:1px solid #eee}
   @media(max-width:640px){
     thead{display:none}
-    tbody tr{display:block;padding:10px 14px;border-bottom:1.5px solid #F0F0EE}
-    td{display:block;padding:2px 0;width:100%!important}
-    .col-rate .rate-bar-wrap{width:80px}
+    tbody tr{display:block;padding:12px 0;border-bottom:2px solid #eee}
+    td{display:block;padding:4px 16px}
+    td:first-child{padding-top:8px}
+    .table-wrap{overflow-x:visible}
+    table{min-width:unset;width:100%}
   }
 </style>
 </head>
 <body>
-
-<h1>🃏 ポーカー大会カレンダー 2026</h1>
-<p class="subtitle">主要ポーカーツアーの2026年スケジュール一覧　最終更新：2026/04/09</p>
-
+<header>
+  <h1>🃏 ポーカー大会カレンダー 2026</h1>
+  <div class="subtitle">最終更新：2026/04/10</div>
+</header>
 <div class="filters" id="filters">
-  <button class="filter-btn active" data-tour="all">すべて</button>
-  <button class="filter-btn" data-tour="JOPT">JOPT</button>
-  <button class="filter-btn" data-tour="戦国">戦国</button>
-  <button class="filter-btn" data-tour="SPADIE">SPADIE</button>
-  <button class="filter-btn" data-tour="USOP">USOP</button>
-  <button class="filter-btn" data-tour="P1">P1</button>
-  <button class="filter-btn" data-tour="XPT">XPT</button>
-  <button class="filter-btn" data-tour="WPT">WPT</button>
-  <button class="filter-btn" data-tour="GOP">GOP</button>
-  <button class="filter-btn" data-tour="APT">APT</button>
-  <button class="filter-btn" data-tour="PPS">PPS</button>
+  <button class="pill active" data-tour="all">すべて</button>
+  <button class="pill" data-tour="JOPT">JOPT</button>
+  <button class="pill" data-tour="戦国">戦国</button>
+  <button class="pill" data-tour="SPADIE">SPADIE</button>
+  <button class="pill" data-tour="USOP">USOP</button>
+  <button class="pill" data-tour="P1">P1</button>
+  <button class="pill" data-tour="XPT">XPT</button>
+  <button class="pill" data-tour="WPT">WPT</button>
+  <button class="pill" data-tour="GOP">GOP</button>
+  <button class="pill" data-tour="APT">APT</button>
+  <button class="pill" data-tour="PPS">PPS</button>
 </div>
-
-<div class="legend">
-  <span><span class="legend-dot confirmed"></span>確定情報</span>
-  <span><span class="legend-dot unconfirmed"></span>未確定（過去実績参考）</span>
-</div>
-
-<table id="calTable">
-  <thead>
-    <tr>
-      <th class="col-period">日程</th>
-      <th class="col-tour">ツアー</th>
-      <th class="col-name">大会名・会場</th>
-      <th class="col-fee">参加費・プライズ内容</th>
-      <th class="col-rate">還元率</th>
-    </tr>
-  </thead>
-  <tbody id="calBody"></tbody>
+<div class="table-wrap">
+<table id="mainTable">
+<thead>
+  <tr>
+    <th>日程</th>
+    <th>ツアー</th>
+    <th>大会名・会場</th>
+    <th>参加費・プライズ内容</th>
+    <th>還元率</th>
+  </tr>
+</thead>
+<tbody id="tableBody"></tbody>
 </table>
-
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="dot dot-confirmed"></div>確定</div>
+  <div class="legend-item"><div class="dot dot-unconfirmed"></div>未確定（グレー表示）</div>
+</div>
 <footer>
-  ※ グレー表示の行は日程・詳細が未確定の情報です。過去実績を参考に記載しています。<br>
-  ※ JOPT・戦国・SPADIE・USOP・XPT・P1（国内）は日本法規制により現金賞金なし。プライズはWEBコイン・海外大会パッケージ・物品等で授与されます。<br>
-  ※ 参加費は $1 = 150円で換算（概算）。施設利用料・ドリンク代が別途必要な場合があります。<br>
-  ※ 還元率 = プライズプール総額 ÷ 参加費徴収総額。過去複数回の平均値。国内アミューズメント大会は非現金制のため —。<br>
-  ※「参考」と表示されているものは直近過去実績の推定値です。
+※ グレー表示の行は日程・詳細が未確定の情報です。過去実績を参考に記載しています。<br>
+※ JOPT・戦国・SPADIE・USOP・XPT・P1（国内）は日本法規制により現金賞金なし。プライズはWEBコイン・海外大会パッケージ・物品等で授与されます。<br>
+※ 参加費は $1 = 150円で換算（概算）。施設利用料・ドリンク代が別途必要な場合があります。<br>
+※ 還元率 = プライズプール総額 ÷ 参加費徴収総額。過去複数回の平均値。国内アミューズメント大会は非現金制のため —。<br>
+※「参考」と表示されているものは直近過去実績の推定値です。
 </footer>
 
 <script>
-const BADGE = {
-  JOPT:   {bg:"#FAEEDA", color:"#633806"},
-  戦国:   {bg:"#FAECE7", color:"#712B13"},
-  SPADIE: {bg:"#FBEAF0", color:"#72243E"},
-  USOP:   {bg:"#EBF5E1", color:"#2E5E10"},
-  P1:     {bg:"#F1EFE8", color:"#444441"},
-  XPT:    {bg:"#EEF3F8", color:"#2C4A6E"},
-  GOP:    {bg:"#EEEDFE", color:"#3C3489"},
-  APT:    {bg:"#E1F5EE", color:"#085041"},
-  WPT:    {bg:"#E6F1FB", color:"#0C447C"},
-  PPS:    {bg:"#FFF3E0", color:"#7A4100"},
-};
-const BAR_COLOR = {
-  GOP:"#7F77DD", APT:"#1D9E75", WPT:"#378ADD", PPS:"#EF9F27",
-  JOPT:"#BA7517", XPT:"#378ADD", P1:"#888780",
-  戦国:"#D85A30", SPADIE:"#D4537E", USOP:"#4E9A1C"
-};
-const RATE_DATA = {
-  GOP:    {rate:90, rateRef:"過去3回平均",            noCash:false},
-  APT:    {rate:92, rateRef:"過去実績平均",            noCash:false},
-  WPT:    {rate:93, rateRef:"World Championship実績", noCash:false},
-  PPS:    {rate:88, rateRef:"過去実績推定",            noCash:false},
-  USOP:{noCash:true}, JOPT:{noCash:true}, 戦国:{noCash:true},
-  SPADIE:{noCash:true}, P1:{noCash:true}, XPT:{noCash:true},
-};
-
-// fee: メイン表示（太字）
-// feeSub: サブ表示（細字・補足）
-const data = [
-
-  /* ── 3月（開催済み）── */
-  {tour:"戦国", sortKey:3,
-   dateStr:"3/18(水)〜3/22(日)", dateLabel:"開催済み",
-   name:"戦国ポーカーツアー 2026 -春の陣-",
-   url:"https://pokerjapan.jp/sengokupoker-2026-spring/",
-   venue:"東京・ベルサール新宿グランド",
-   fee:"ダイレクト ¥60,000",
-   feeSub:"または店舗サテライト通過チケット（別途飲料代¥1,000）",
-   prizes:[
-     {label:"イベント総額", value:"約1億円"},
-     {label:"ME総額",      value:"約2,000万円"},
-     {label:"ME優勝",      value:"約400万円相当"},
-     {label:"プライズ形式", value:"WEBコイン・物品等"},
-   ],
-   note:"現金賞金なし（アミューズメント）。2,157エントリー（過去最多）", confirmed:true},
-
-  /* ── 4〜5月 ── */
-  {tour:"APT", sortKey:4.5,
-   dateStr:"4/22(水)〜5/3(日)", dateLabel:"",
-   name:"APT Taipei 2026",
-   url:"https://www.theasianpokertour.com/apt-taipei-2026/",
-   venue:"台湾・台北 Red Space",
-   fee:"約24万円（≈$1,600）",
-   prizes:[
-     {label:"ME GTD", value:"未発表", isRef:true, refNote:"2025年実績：$1.5M GTD"},
-   ],
-   confirmed:true},
-
-  {tour:"JOPT", sortKey:4.5,
-   dateStr:"4/24(金)〜5/6(水)", dateLabel:"",
-   name:"JOPT 2026 Grand Final",
-   url:"https://japanopenpoker.com/gf/",
-   venue:"東京・ベルサール高田馬場",
-   fee:"チケット3枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥120,000（施設利用料込み）",
-   prizes:[
-     {label:"ME総額",       value:"1億円保証"},
-     {label:"ME優勝",       value:"約2,000万円相当", isRef:true, refNote:"2025 Grand Final実績"},
-     {label:"Millions優勝",  value:"約370万円相当",  isRef:true, refNote:"過去実績"},
-     {label:"Platinum優勝",  value:"約2,340万円相当", isRef:true, refNote:"過去実績"},
-     {label:"プライズ形式",  value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）。MIX含め190以上のトーナメント", confirmed:true},
-
-  {tour:"USOP", sortKey:4.6,
-   dateStr:"4/29(水)〜5/6(水)", dateLabel:"",
-   name:"USOP Dojima April 2026（Osaka #2）",
-   url:"https://userieschampionship.com/tournament/",
-   venue:"大阪・堂島リバーフォーラム",
-   fee:"¥88,000（ME）",
-   prizes:[
-     {label:"ME GTD", value:"5,500万円"},
-   ],
-   note:"70以上のイベント。現金賞金なし（アミューズメント）", confirmed:true},
-
-  /* ── 5月 ── */
-  {tour:"GOP", sortKey:5,
-   dateStr:"5/15(金)〜5/24(日)", dateLabel:"",
-   name:"GOP Incheon 2026（The Labyrinth Trail）",
-   url:"https://globalopenseries.com/",
-   venue:"韓国・仁川 Paradise City",
-   fee:"約23万円（≈$1,540）",
-   prizes:[
-     {label:"ME GTD", value:"$700K（約1.05億円）"},
-   ],
-   confirmed:true},
-
-  {tour:"SPADIE", sortKey:5.1,
-   dateStr:"5/21(木)〜5/24(日)", dateLabel:"",
-   name:"SPADIE Season 41st",
-   url:"https://pokerguild.jp/spadie/spadie-poker-league/",
-   venue:"東京・ベルサール新宿グランド",
-   fee:"チケット2枚＋施設利用料（別途）",
-   feeSub:"チケットは全国店舗予選で獲得。1枚目50,000点スタート",
-   prizes:[
-     {label:"ME総額", value:"1,000万円超"},
-     {label:"優勝",  value:"未発表", isRef:true, refNote:"Season 40th実績：数百万円相当"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約等"},
-   ],
-   note:"現金賞金なし（アミューズメント）", confirmed:true},
-
-  /* ── 5〜6月 ── */
-  {tour:"USOP", sortKey:5.5,
-   dateStr:"5/19(火)〜6/1(月)", dateLabel:"",
-   name:"USOP Vietnam 2026（Ha Long Bay）",
-   url:"https://userieschampionship.com/tournament/vietnam-series-2026-halong/",
-   venue:"ベトナム・ハロン湾 InterContinental Ha Long Bay Resort",
-   fee:"約18万円（VND 30,000,000 ME）",
-   prizes:[
-     {label:"ME GTD", value:"約18億円（30B VND）"},
-   ],
-   note:"80以上のイベント開催", confirmed:true},
-
-  /* ── 5〜7月 ── */
-  {tour:"WPT", sortKey:5.6,
-   dateStr:"5/26(火)〜7/15(水)", dateLabel:"",
-   name:"WSOP 2026（第57回）",
-   url:"https://www.wsop.com/tournaments/2026-57th-annual-world-series-of-poker/",
-   venue:"ラスベガス Horseshoe & Paris Las Vegas",
-   fee:"約150万円（ME $10,000）",
-   prizes:[
-     {label:"ME優勝", value:"約15億円（≈$10M）"},
-   ],
-   note:"WSOPとしての最大規模大会", confirmed:true},
-
-  /* ── 6月 ── */
-  {tour:"SPADIE", sortKey:6,
-   dateStr:"6/11(木)〜6/14(日)", dateLabel:"",
-   name:"SPADIE POKER LEAGUE OSAKA（大阪初上陸）",
-   url:"https://pokerguild.jp/spadie/spadie-poker-league/",
-   venue:"大阪・なんば御堂筋ホール",
-   fee:"チケット2枚＋施設利用料（別途）",
-   feeSub:"チケットは全国店舗予選で獲得",
-   prizes:[
-     {label:"ME総額", value:"未発表", isRef:true, refNote:"過去実績：数百万円〜1,000万円規模"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約等"},
-   ],
-   note:"現金賞金なし（アミューズメント）", confirmed:true},
-
-  /* ── 7月 ── */
-  {tour:"JOPT", sortKey:7,
-   dateStr:"7/16(木)〜7/20(月)", dateLabel:"",
-   name:"JOPT Tokyo #02",
-   url:"https://japanopenpoker.com/",
-   venue:"東京・ベルサール高田馬場",
-   fee:"チケット3枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥120,000（施設利用料込み）",
-   prizes:[
-     {label:"ME総額", value:"1億円保証", isRef:true, refNote:"過去実績参考"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）", confirmed:true},
-
-  {tour:"JOPT", sortKey:7.1,
-   dateStr:"7/30(木)〜8/2(日)", dateLabel:"",
-   name:"JOPT Fukuoka #01",
-   url:"https://japanopenpoker.com/",
-   venue:"福岡・UNITEDLAB",
-   fee:"チケット3枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥120,000（施設利用料込み）※公式未確認・過去実績参考",
-   prizes:[
-     {label:"ME総額", value:"未発表", isRef:true, refNote:"過去他都市実績：数千万円規模"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）。九州・福岡初上陸", confirmed:true},
-
-  /* ── 8月 ── */
-  {tour:"APT", sortKey:8,
-   dateStr:"8/7(金)〜8/16(日)", dateLabel:"",
-   name:"APT Incheon 2026",
-   url:"https://www.theasianpokertour.com/",
-   venue:"韓国・仁川 Paradise City",
-   fee:"約24万円（≈$1,600）",
-   prizes:[
-     {label:"ME GTD", value:"未発表", isRef:true, refNote:"2025年実績：$6.4M GTD"},
-   ],
-   confirmed:true},
-
-  {tour:"SPADIE", sortKey:8.1,
-   dateStr:"8/7(金)〜8/16(日)", dateLabel:"",
-   name:"SPADIE TOKYO 42nd",
-   url:"https://pokerguild.jp/spadie/spadie-poker-league/",
-   venue:"東京・ベルサール高田馬場",
-   fee:"チケット2枚＋施設利用料（別途）",
-   feeSub:"チケットは全国店舗予選で獲得",
-   prizes:[
-     {label:"ME総額", value:"未発表", isRef:true, refNote:"過去実績：1,000万円超"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約等"},
-   ],
-   note:"現金賞金なし（アミューズメント）", confirmed:true},
-
-  {tour:"GOP", sortKey:8.2,
-   dateStr:"8/21(金)〜8/30(日)", dateLabel:"",
-   name:"GOP Taipei 2026 II",
-   url:"https://globalopenseries.com/",
-   venue:"台湾・台北 Asia Poker Arena",
-   fee:"約23万円（≈$1,540）",
-   prizes:[
-     {label:"ME GTD", value:"未発表", isRef:true, refNote:"過去実績：$700K〜$1M GTD規模"},
-   ],
-   confirmed:true},
-
-  /* ── 9月 ── */
-  {tour:"JOPT", sortKey:9,
-   dateStr:"9/18(金)〜9/23(水)", dateLabel:"",
-   name:"JOPT Sapporo",
-   url:"https://japanopenpoker.com/",
-   venue:"北海道・札幌",
-   fee:"チケット1枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥70,000（施設利用料込み）",
-   prizes:[
-     {label:"ME総額", value:"未発表", isRef:true, refNote:"Sapporo #01実績：数千万円規模"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）", confirmed:true},
-
-  {tour:"戦国", sortKey:9.1,
-   dateStr:"9/17(木)〜9/23(水)", dateLabel:"",
-   name:"戦国ポーカーツアー 2026 -秋の陣-",
-   url:"https://pokerjapan.jp/",
-   venue:"東京・ベルサール新宿グランド",
-   fee:"ダイレクト ¥60,000",
-   feeSub:"または店舗サテライト通過チケット（別途飲料代¥1,000）",
-   prizes:[
-     {label:"イベント総額", value:"約1億円規模",    isRef:true, refNote:"過去複数回実績参考"},
-     {label:"ME総額",      value:"約2,000万円規模",  isRef:true, refNote:"2025年秋の陣実績"},
-     {label:"ME優勝",      value:"約400万円相当",   isRef:true, refNote:"過去実績参考"},
-     {label:"プライズ形式", value:"WEBコイン・物品等"},
-   ],
-   note:"現金賞金なし（アミューズメント）", confirmed:true},
-
-  {tour:"GOP", sortKey:9.2,
-   dateStr:"9/18(金)〜9/27(日)", dateLabel:"",
-   name:"GOP Incheon 2026 II",
-   url:"https://globalopenseries.com/",
-   venue:"韓国・仁川 Paradise City",
-   fee:"約23万円（≈$1,540）",
-   prizes:[
-     {label:"ME GTD", value:"未発表", isRef:true, refNote:"過去実績：$700K〜$1M GTD規模"},
-   ],
-   confirmed:true},
-
-  {tour:"APT", sortKey:9.3,
-   dateStr:"9/25(金)〜10/4(日)", dateLabel:"",
-   name:"APT Jeju 2026",
-   url:"https://www.theasianpokertour.com/",
-   venue:"韓国・済州 LES A Casino（Jeju Shinhwa World）",
-   fee:"約24万円（≈$1,600）",
-   prizes:[
-     {label:"ME GTD", value:"未発表", isRef:true, refNote:"APT Jeju Classic 2026実績：KRW 4.9B（≈$3.4M）GTD"},
-   ],
-   confirmed:true},
-
-  /* ── 10月 ── */
-  {tour:"JOPT", sortKey:10,
-   dateStr:"10/8(木)〜10/12(月)", dateLabel:"",
-   name:"JOPT Tokyo #03",
-   url:"https://japanopenpoker.com/",
-   venue:"東京・ベルサール高田馬場",
-   fee:"チケット3枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥120,000（施設利用料込み）",
-   prizes:[
-     {label:"ME総額", value:"1億円保証", isRef:true, refNote:"過去実績参考"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）", confirmed:true},
-
-  /* ── 10〜11月 ── */
-  {tour:"JOPT", sortKey:10.5,
-   dateStr:"10/29(木)〜11/3(火)", dateLabel:"",
-   name:"JOPT Osaka",
-   url:"https://japanopenpoker.com/",
-   venue:"大阪・堂島リバーフォーラム",
-   fee:"チケット3枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥120,000（施設利用料込み）",
-   prizes:[
-     {label:"ME総額",      value:"未発表", isRef:true, refNote:"2026 Osaka #01実績：5,000万円"},
-     {label:"Platinum優勝", value:"約1,800万円超", isRef:true, refNote:"2026 Osaka #01実績"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）", confirmed:true},
-
-  /* ── 11月 ── */
-  {tour:"APT", sortKey:11,
-   dateStr:"11/13(金)〜11/29(日)", dateLabel:"",
-   name:"APT Championship Taipei 2026",
-   url:"https://www.theasianpokertour.com/",
-   venue:"台湾・台北 Red Space",
-   fee:"約24万円（≈$1,600）",
-   prizes:[
-     {label:"ME GTD", value:"$5M（約7.5億円）"},
-   ],
-   note:"17日間開催。APT史上最大のGTD。20周年記念シーズン最終戦", confirmed:true},
-
-  {tour:"SPADIE", sortKey:11.1,
-   dateStr:"11/19(木)〜11/23(日)", dateLabel:"",
-   name:"SPADIE TOKYO 43rd",
-   url:"https://pokerguild.jp/spadie/spadie-poker-league/",
-   venue:"東京・ベルサール新宿グランド",
-   fee:"チケット2枚＋施設利用料（別途）",
-   feeSub:"チケットは全国店舗予選で獲得",
-   prizes:[
-     {label:"ME総額", value:"未発表", isRef:true, refNote:"過去実績：1,000万円超"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約等"},
-   ],
-   note:"現金賞金なし（アミューズメント）", confirmed:true},
-
-  {tour:"XPT", sortKey:11.2,
-   dateStr:"11/26(木)〜11/29(日)", dateLabel:"",
-   name:"XPT 4th 広島",
-   url:"https://x.com/xpt_official",
-   venue:"広島・NTTクレドホール",
-   fee:"未発表",
-   feeSub:"店舗サテライト経由またはダイレクト（詳細は公式X確認）",
-   prizes:[
-     {label:"ME総額", value:"未発表", isRef:true, refNote:"XPT 3rd実績：ME 総額1,500万円規模"},
-     {label:"ME優勝", value:"未発表", isRef:true, refNote:"XPT 3rd実績：数百万円相当"},
-     {label:"POY賞",  value:"2027 WSOP ME フルパッケージ"},
-     {label:"プライズ形式", value:"WEBコイン・物品等"},
-   ],
-   note:"現金賞金なし（アミューズメント）。POY制度導入", confirmed:true},
-
-  /* ── 12月 ── */
-  {tour:"GOP", sortKey:12,
-   dateStr:"12/14(月)〜12/23(水)", dateLabel:"",
-   name:"GOP Jeju 2026（The Olympus Return）",
-   url:"https://globalopenseries.com/",
-   venue:"韓国・済州 LES A Casino",
-   fee:"約23万円（≈$1,540）",
-   prizes:[
-     {label:"ME GTD", value:"未発表", isRef:true, refNote:"GOP Jeju 2025実績：KRW 2B（≈$1.4M）GTD"},
-   ],
-   confirmed:true},
-
-  {tour:"WPT", sortKey:12.1,
-   dateStr:"12月（予定）", dateLabel:"日程未発表",
-   name:"WPT World Championship 2026",
-   url:null,
-   venue:"ラスベガス・Wynn Las Vegas",
-   fee:"約156万円（$10,400）",
-   prizes:[
-     {label:"総賞金", value:"未発表", isRef:true, refNote:"2025年実績：$18.2M"},
-     {label:"優勝",  value:"未発表", isRef:true, refNote:"2025年実績：$2,258,856（≈約3.4億円）"},
-   ],
-   note:"日程未発表（例年12月初旬〜下旬）", confirmed:false},
-
-  /* ── 12月〜翌年 ── */
-  {tour:"JOPT", sortKey:12.5,
-   dateStr:"12/24(木)〜1/3(土)", dateLabel:"年またぎ",
-   name:"JOPT Tokyo #04",
-   url:"https://japanopenpoker.com/",
-   venue:"東京・ベルサール高田馬場",
-   fee:"チケット3枚＋施設利用料¥7,000",
-   feeSub:"またはダイレクト¥120,000（施設利用料込み）",
-   prizes:[
-     {label:"ME総額", value:"1億円保証", isRef:true, refNote:"過去実績参考"},
-     {label:"プライズ形式", value:"WEBコイン・選手契約（海外大会パッケージ）"},
-   ],
-   note:"現金賞金なし（日本法規制）", confirmed:true},
-
-  /* ── 時期未定 ── */
-  {tour:"P1", sortKey:13,
-   dateStr:"時期未定", dateLabel:"日程未発表",
-   name:"P1 GRANDPRIX 2026 後半戦",
-   url:null,
-   venue:"未発表",
-   fee:"未発表",
-   feeSub:"店舗サテライト経由またはダイレクト（詳細は公式X確認）",
-   prizes:[
-     {label:"MAIN総額", value:"未発表", isRef:true, refNote:"P1 OSAKA 2026実績：大会総額1億円・MAIN総額4,000万円"},
-     {label:"MAIN優勝", value:"未発表", isRef:true, refNote:"過去実績：数百万円相当"},
-   ],
-   note:"前半：P1 OSAKA 2026（2/19〜23、梅田スカイビル）開催済み。後半日程未発表", confirmed:false},
-
-  {tour:"PPS", sortKey:13.1,
-   dateStr:"時期未定", dateLabel:"日程未発表",
-   name:"PPS（Paradise City Poker Series）2026",
-   url:null,
-   venue:"韓国・仁川 Paradise City",
-   fee:"未発表",
-   prizes:[
-     {label:"ME優勝", value:"未発表", isRef:true, refNote:"PPS 3rd実績：ME 優勝 ₩60,775,000（約660万円）"},
-   ],
-   note:"2026年独自開催未発表。過去実績から年1〜2回", confirmed:false},
+const events = [
+  // ===== 戦国 春の陣（開催済み）=====
+  {
+    tour:"戦国", sortKey:3,
+    dateStr:"3/18(水)〜3/22(日)", dateLabel:"開催済み",
+    name:"戦国ポーカーツアー 2026 -春の陣-",
+    url:"https://pokerjapan.jp/sengokupoker-2026-spring/",
+    venue:"東京・ベルサール新宿グランド",
+    fee:"ダイレクト ¥60,000",
+    feeSub:"または店舗サテライト通過チケット（別途飲料代¥1,000）",
+    prizes:[
+      {label:"イベント総額",value:"約1億円"},
+      {label:"ME総額",value:"約2,000万円"},
+      {label:"ME優勝",value:"約400万円相当"},
+      {label:"プライズ形式",value:"WEBコイン・物品等"},
+    ],
+    note:"現金賞金なし（アミューズメント）。2,157エントリー（過去最多）",
+    confirmed:true, past:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== JOPT Grand Final =====
+  {
+    tour:"JOPT", sortKey:4.5,
+    dateStr:"4/24(金)〜5/6(水)", dateLabel:"",
+    name:"JOPT 2026 Grand Final",
+    url:"https://japanopenpoker.com/gf/",
+    venue:"東京・ベルサール高田馬場",
+    fee:"チケット3枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥120,000（施設利用料込み）",
+    prizes:[
+      {label:"ME総額",value:"1億円保証"},
+      {label:"ME優勝",value:"約2,000万円相当",isRef:true,refNote:"2025 Grand Final実績"},
+      {label:"Millions優勝",value:"約370万円相当",isRef:true,refNote:"参考"},
+      {label:"Platinum優勝",value:"約2,340万円相当",isRef:true,refNote:"参考"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）。MIX含め190以上のトーナメント",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== USOP Dojima April =====
+  {
+    tour:"USOP", sortKey:4.6,
+    dateStr:"4/29(水)〜5/6(水)", dateLabel:"",
+    name:"USOP Dojima April 2026（Osaka #2）",
+    url:"https://userieschampionship.com/tournament/",
+    venue:"大阪・堂島リバーフォーラム",
+    fee:"¥88,000（ME）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"5,500万円"},
+    ],
+    note:"70以上のイベント。現金賞金なし（アミューズメント）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== APT Taipei 2026 =====
+  {
+    tour:"APT", sortKey:4.7,
+    dateStr:"4/22(水)〜5/3(日)", dateLabel:"",
+    name:"APT Taipei 2026",
+    url:"https://www.theasianpokertour.com/apt-taipei-2026/",
+    venue:"台湾・台北 Red Space",
+    fee:"約24万円（≈$1,600）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"未発表",isRef:true,refNote:"2025年実績：$1.5M GTD"},
+    ],
+    note:"",
+    confirmed:true,
+    rate:92, rateRef:"過去実績平均", ratePct:92,
+    rateColor:"#1D9E75",
+  },
+  // ===== GOP Incheon 2026 =====
+  {
+    tour:"GOP", sortKey:5.1,
+    dateStr:"5/15(金)〜5/24(日)", dateLabel:"",
+    name:"GOP Incheon 2026（The Prophecy Unfolds）",
+    url:"https://globalopenseries.com/",
+    venue:"韓国・仁川 Paradise City",
+    fee:"約23万円（≈$1,540）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"$700K（約1.05億円）",isRef:true,refNote:"参考：過去実績規模"},
+    ],
+    note:"",
+    confirmed:true,
+    rate:90, rateRef:"過去3回平均", ratePct:90,
+    rateColor:"#7F77DD",
+  },
+  // ===== USOP Vietnam Ha Long Bay =====
+  {
+    tour:"USOP", sortKey:5.5,
+    dateStr:"5/19(火)〜6/1(月)", dateLabel:"",
+    name:"USOP Vietnam 2026（Ha Long Bay）",
+    url:"https://userieschampionship.com/tournament/vietnam-series-2026-halong/",
+    venue:"ベトナム・ハロン湾 InterContinental Ha Long Bay Resort",
+    fee:"約18万円（VND 30,000,000 ME）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"約18億円（30B VND）"},
+    ],
+    note:"80以上のイベント開催",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== WSOP 2026 =====
+  {
+    tour:"WPT", sortKey:5.6,
+    dateStr:"5/26(火)〜7/15(水)", dateLabel:"",
+    name:"WSOP 2026（第57回）",
+    url:"https://www.wsop.com/tournaments/2026-57th-annual-world-series-of-poker/",
+    venue:"ラスベガス Horseshoe & Paris Las Vegas",
+    fee:"約150万円（ME $10,000）",
+    feeSub:"",
+    prizes:[
+      {label:"ME優勝",value:"約15億円（≈$10M）",isRef:true,refNote:"2025年実績"},
+    ],
+    note:"100ブレスレットイベント。MEは7/2開始・FT 8/3-5に延期（ESPN放映）",
+    confirmed:true,
+    rate:93, rateRef:"World Championship実績", ratePct:93,
+    rateColor:"#378ADD",
+  },
+  // ===== SPADIE Season 41st =====
+  {
+    tour:"SPADIE", sortKey:5.2,
+    dateStr:"5/21(木)〜5/24(日)", dateLabel:"",
+    name:"SPADIE Season 41st",
+    url:"https://pokerguild.jp/spadie/spadie-poker-league/",
+    venue:"東京・ベルサール新宿グランド",
+    fee:"チケット2枚＋施設利用料（別途）",
+    feeSub:"チケットは全国店舗予選で獲得。1枚目50,000点スタート",
+    prizes:[
+      {label:"ME総額",value:"1,000万円超"},
+      {label:"優勝",value:"未発表",isRef:true,refNote:"Season 40th実績：数百万円相当"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約等"},
+    ],
+    note:"現金賞金なし（アミューズメント）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== SPADIE OSAKA =====
+  {
+    tour:"SPADIE", sortKey:6,
+    dateStr:"6/11(木)〜6/14(日)", dateLabel:"",
+    name:"SPADIE POKER LEAGUE OSAKA（大阪初上陸）",
+    url:"https://pokerguild.jp/spadie/spadie-poker-league/",
+    venue:"大阪・なんば御堂筋ホール",
+    fee:"チケット2枚＋施設利用料（別途）",
+    feeSub:"チケットは全国店舗予選で獲得",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"過去実績：数百万円〜1,000万円規模"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約等"},
+    ],
+    note:"現金賞金なし（アミューズメント）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== JOPT Tokyo #02 =====
+  {
+    tour:"JOPT", sortKey:7,
+    dateStr:"7/16(木)〜7/20(月)", dateLabel:"",
+    name:"JOPT Tokyo #02",
+    url:"https://japanopenpoker.com/",
+    venue:"東京・ベルサール高田馬場",
+    fee:"チケット3枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥120,000（施設利用料込み）",
+    prizes:[
+      {label:"ME総額",value:"1億円保証",isRef:true,refNote:"参考"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== JOPT Fukuoka #01 =====
+  {
+    tour:"JOPT", sortKey:7.1,
+    dateStr:"7/30(木)〜8/2(日)", dateLabel:"",
+    name:"JOPT Fukuoka #01",
+    url:"https://japanopenpoker.com/",
+    venue:"福岡・UNITEDLAB",
+    fee:"チケット3枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥120,000（施設利用料込み）※公式未確認・過去実績参考",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"過去他都市実績：数千万円規模"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）。九州・福岡初上陸",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== APT Incheon 2026 =====
+  {
+    tour:"APT", sortKey:8,
+    dateStr:"8/7(金)〜8/16(日)", dateLabel:"",
+    name:"APT Incheon 2026",
+    url:"https://www.theasianpokertour.com/",
+    venue:"韓国・仁川 Paradise City",
+    fee:"約24万円（≈$1,600）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"未発表",isRef:true,refNote:"2025年実績：$6.4M GTD"},
+    ],
+    note:"",
+    confirmed:true,
+    rate:92, rateRef:"過去実績平均", ratePct:92,
+    rateColor:"#1D9E75",
+  },
+  // ===== SPADIE TOKYO 42nd =====
+  {
+    tour:"SPADIE", sortKey:8.1,
+    dateStr:"8/7(金)〜8/16(日)", dateLabel:"",
+    name:"SPADIE TOKYO 42nd",
+    url:"https://pokerguild.jp/spadie/spadie-poker-league/",
+    venue:"東京・ベルサール高田馬場",
+    fee:"チケット2枚＋施設利用料（別途）",
+    feeSub:"チケットは全国店舗予選で獲得",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"過去実績：1,000万円超"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約等"},
+    ],
+    note:"現金賞金なし（アミューズメント）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== GOP Manila 2026 =====
+  {
+    tour:"GOP", sortKey:8.2,
+    dateStr:"8/21(金)〜8/30(日)", dateLabel:"",
+    name:"GOP Manila 2026（The Arena of Champions）",
+    url:"https://globalopenseries.com/",
+    venue:"フィリピン・マニラ City of Dreams Manila",
+    fee:"約23万円（≈$1,540）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"未発表",isRef:true,refNote:"過去実績：$700K〜$1M GTD規模"},
+    ],
+    note:"※ベースデータより会場・都市変更：台北→マニラ",
+    confirmed:true,
+    rate:90, rateRef:"過去3回平均", ratePct:90,
+    rateColor:"#7F77DD",
+  },
+  // ===== 戦国 秋の陣 =====
+  {
+    tour:"戦国", sortKey:9,
+    dateStr:"9/17(木)〜9/23(水)", dateLabel:"",
+    name:"戦国ポーカーツアー 2026 -秋の陣-",
+    url:"https://pokerjapan.jp/sengokupoker_2026_autumn/",
+    venue:"東京・ベルサール新宿グランド",
+    fee:"ダイレクト ¥60,000",
+    feeSub:"または店舗サテライト通過チケット（別途飲料代¥1,000）",
+    prizes:[
+      {label:"イベント総額",value:"約1億円規模",isRef:true,refNote:"2025年秋の陣実績"},
+      {label:"ME総額",value:"約2,000万円規模",isRef:true,refNote:"参考"},
+      {label:"ME優勝",value:"約400万円相当",isRef:true,refNote:"参考"},
+      {label:"プライズ形式",value:"WEBコイン・物品等"},
+    ],
+    note:"現金賞金なし（アミューズメント）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== JOPT Sapporo #02 =====
+  {
+    tour:"JOPT", sortKey:9.1,
+    dateStr:"9/18(金)〜9/23(水)", dateLabel:"",
+    name:"JOPT Sapporo #02",
+    url:"https://japanopenpoker.com/",
+    venue:"北海道・札幌（会場後日発表）",
+    fee:"チケット1枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥70,000（施設利用料込み）",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"Sapporo #01実績：数千万円規模"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== GOP Taipei 2026 =====
+  {
+    tour:"GOP", sortKey:9.2,
+    dateStr:"9/18(金)〜9/27(日)", dateLabel:"",
+    name:"GOP Taipei 2026（The Trial of Wisdom）",
+    url:"https://globalopenseries.com/",
+    venue:"台湾・台北 CTP Asia Poker Arena",
+    fee:"約23万円（≈$1,540）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"未発表",isRef:true,refNote:"過去実績：$700K〜$1M GTD規模"},
+    ],
+    note:"※ベースデータより変更：GOP Incheon II→GOP Taipei（Wisdom）",
+    confirmed:true,
+    rate:90, rateRef:"過去3回平均", ratePct:90,
+    rateColor:"#7F77DD",
+  },
+  // ===== APT Jeju 2026 =====
+  {
+    tour:"APT", sortKey:9.3,
+    dateStr:"9/25(金)〜10/4(日)", dateLabel:"",
+    name:"APT Jeju 2026",
+    url:"https://www.theasianpokertour.com/",
+    venue:"韓国・済州 LES A Casino（Jeju Shinhwa World）",
+    fee:"約24万円（≈$1,600）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"未発表",isRef:true,refNote:"APT Jeju Classic 2026実績：KRW 4.9B（≈$3.4M）GTD"},
+    ],
+    note:"",
+    confirmed:true,
+    rate:92, rateRef:"過去実績平均", ratePct:92,
+    rateColor:"#1D9E75",
+  },
+  // ===== JOPT Tokyo #03 =====
+  {
+    tour:"JOPT", sortKey:10,
+    dateStr:"10/8(木)〜10/12(月)", dateLabel:"",
+    name:"JOPT Tokyo #03",
+    url:"https://japanopenpoker.com/",
+    venue:"東京・ベルサール高田馬場",
+    fee:"チケット3枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥120,000（施設利用料込み）",
+    prizes:[
+      {label:"ME総額",value:"1億円保証",isRef:true,refNote:"参考"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== JOPT Osaka #02 =====
+  {
+    tour:"JOPT", sortKey:10.5,
+    dateStr:"10/29(木)〜11/3(火)", dateLabel:"",
+    name:"JOPT Osaka #02",
+    url:"https://japanopenpoker.com/",
+    venue:"大阪・堂島リバーフォーラム",
+    fee:"チケット3枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥120,000（施設利用料込み）",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"2026 Osaka #01実績：5,000万円"},
+      {label:"Platinum優勝",value:"約1,800万円超",isRef:true,refNote:"2026 Osaka #01実績"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== APT Championship Taipei 2026 =====
+  {
+    tour:"APT", sortKey:11,
+    dateStr:"11/13(金)〜11/29(日)", dateLabel:"",
+    name:"APT Championship Taipei 2026",
+    url:"https://www.theasianpokertour.com/",
+    venue:"台湾・台北 Red Space",
+    fee:"約24万円（≈$1,600）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"$5M（約7.5億円）"},
+    ],
+    note:"17日間開催。APT史上最大のGTD。20周年記念シーズン最終戦",
+    confirmed:true,
+    rate:92, rateRef:"過去実績平均", ratePct:92,
+    rateColor:"#1D9E75",
+  },
+  // ===== SPADIE TOKYO 43rd =====
+  {
+    tour:"SPADIE", sortKey:11.1,
+    dateStr:"11/19(木)〜11/23(日)", dateLabel:"",
+    name:"SPADIE TOKYO 43rd",
+    url:"https://pokerguild.jp/spadie/spadie-poker-league/",
+    venue:"東京・ベルサール新宿グランド",
+    fee:"チケット2枚＋施設利用料（別途）",
+    feeSub:"チケットは全国店舗予選で獲得",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"過去実績：1,000万円超"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約等"},
+    ],
+    note:"現金賞金なし（アミューズメント）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== XPT 4th 広島 =====
+  {
+    tour:"XPT", sortKey:11.2,
+    dateStr:"11/26(木)〜11/29(日)", dateLabel:"",
+    name:"XPT 4th 広島",
+    url:"https://x.com/xpt_official",
+    venue:"広島・NTTクレドホール",
+    fee:"未発表",
+    feeSub:"店舗サテライト経由またはダイレクト（詳細は公式X確認）",
+    prizes:[
+      {label:"ME総額",value:"未発表",isRef:true,refNote:"XPT 3rd実績：ME 総額1,500万円規模"},
+      {label:"ME優勝",value:"未発表",isRef:true,refNote:"数百万円相当"},
+      {label:"POY賞",value:"2027 WSOP ME フルパッケージ"},
+      {label:"プライズ形式",value:"WEBコイン・物品等"},
+    ],
+    note:"現金賞金なし（アミューズメント）。POY制度導入",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== GOP Jeju 2026 =====
+  {
+    tour:"GOP", sortKey:12,
+    dateStr:"12/14(月)〜12/23(水)", dateLabel:"",
+    name:"GOP Jeju 2026（The Olympus Return）",
+    url:"https://globalopenseries.com/",
+    venue:"韓国・済州 LES A Casino",
+    fee:"約23万円（≈$1,540）",
+    feeSub:"",
+    prizes:[
+      {label:"ME GTD",value:"未発表",isRef:true,refNote:"GOP Jeju 2025実績：KRW 2B（≈$1.4M）GTD"},
+    ],
+    note:"",
+    confirmed:true,
+    rate:90, rateRef:"過去3回平均", ratePct:90,
+    rateColor:"#7F77DD",
+  },
+  // ===== JOPT Tokyo #04（年またぎ）=====
+  {
+    tour:"JOPT", sortKey:12.5,
+    dateStr:"12/24(木)〜1/3(土)", dateLabel:"年またぎ",
+    name:"JOPT Tokyo #04",
+    url:"https://japanopenpoker.com/",
+    venue:"東京・ベルサール高田馬場",
+    fee:"チケット3枚＋施設利用料¥7,000",
+    feeSub:"またはダイレクト¥120,000（施設利用料込み）",
+    prizes:[
+      {label:"ME総額",value:"1億円保証",isRef:true,refNote:"参考"},
+      {label:"プライズ形式",value:"WEBコイン・選手契約（海外大会パッケージ）"},
+    ],
+    note:"現金賞金なし（日本法規制）",
+    confirmed:true,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== WPT World Championship 2026 =====
+  {
+    tour:"WPT", sortKey:13,
+    dateStr:"12月（予定）", dateLabel:"日程未発表",
+    name:"WPT World Championship 2026",
+    url:null,
+    venue:"ラスベガス・Wynn Las Vegas",
+    fee:"約156万円（$10,400）",
+    feeSub:"",
+    prizes:[
+      {label:"総賞金",value:"未発表",isRef:true,refNote:"2025年実績：$18.2M"},
+      {label:"優勝",value:"未発表",isRef:true,refNote:"2025年実績：$2,258,856（≈約3.4億円）"},
+    ],
+    note:"日程未発表（例年12月初旬〜下旬）",
+    confirmed:false,
+    rate:93, rateRef:"World Championship実績", ratePct:93,
+    rateColor:"#378ADD",
+  },
+  // ===== P1 後半戦 =====
+  {
+    tour:"P1", sortKey:13.1,
+    dateStr:"時期未定", dateLabel:"日程未発表",
+    name:"P1 GRANDPRIX 2026 後半戦",
+    url:null,
+    venue:"未発表",
+    fee:"未発表",
+    feeSub:"店舗サテライト経由またはダイレクト（詳細は公式X確認）",
+    prizes:[
+      {label:"MAIN総額",value:"未発表",isRef:true,refNote:"P1 OSAKA 2026実績：大会総額1億円・MAIN総額4,000万円"},
+      {label:"MAIN優勝",value:"未発表",isRef:true,refNote:"過去実績：数百万円相当"},
+      {label:"プライズ形式",value:"WEBコイン・物品等"},
+    ],
+    note:"前半：P1 OSAKA 2026（2/19〜23、梅田スカイビル）開催済み。後半日程未発表",
+    confirmed:false,
+    rate:null, rateRef:null, ratePct:null,
+  },
+  // ===== PPS 2026 =====
+  {
+    tour:"PPS", sortKey:13.2,
+    dateStr:"時期未定", dateLabel:"日程未発表",
+    name:"PPS（Paradise City Poker Series）2026",
+    url:null,
+    venue:"韓国・仁川 Paradise City",
+    fee:"未発表",
+    feeSub:"",
+    prizes:[
+      {label:"ME優勝",value:"未発表",isRef:true,refNote:"PPS 3rd実績：ME 優勝 ₩60,775,000（約660万円）"},
+    ],
+    note:"2026年独自開催未発表。過去実績から年1〜2回",
+    confirmed:false,
+    rate:88, rateRef:"過去実績推定", ratePct:88,
+    rateColor:"#EF9F27",
+  },
 ];
 
-data.sort((a,b) => a.sortKey - b.sortKey);
-
-function buildPrizeHtml(prizes) {
-  if (!prizes || prizes.length === 0) return "";
-  const rows = prizes.map(p => {
-    const ref = p.isRef ? `<span class="prize-ref">（参考：${p.refNote}）</span>` : "";
-    return `<div class="prize-row"><span class="prize-label">🏆 ${p.label}：</span>${p.value}${ref}</div>`;
-  }).join("");
-  return `<div class="prize-block">${rows}</div>`;
+function renderRate(ev) {
+  if (ev.ratePct === null) {
+    return `<div class="rate-none">—</div><div class="rate-none" style="font-size:10px;color:#aaa">非現金制</div>`;
+  }
+  return `
+    <div class="rate-pct">${ev.ratePct}%</div>
+    <div class="rate-bar-wrap"><div class="rate-bar" style="width:${ev.ratePct}%;background:${ev.rateColor||'#888'}"></div></div>
+    <div class="rate-ref">参考：${ev.rateRef}</div>
+  `;
 }
 
-function rateCell(tour) {
-  const d = RATE_DATA[tour];
-  if (!d) return `<div class="rate-label">—</div>`;
-  if (d.noCash) return `<div class="rate-label">—</div><div class="rate-ref">非現金制</div>`;
-  const bar = BAR_COLOR[tour] || "#aaa";
-  return `<div class="rate-label">${d.rate}%</div>
-    <div class="rate-bar-wrap"><div class="rate-bar" style="width:${d.rate}%;background:${bar}"></div></div>
-    <div class="rate-ref">参考：${d.rateRef}</div>`;
+function renderPrizes(prizes) {
+  if (!prizes || !prizes.length) return '';
+  return prizes.map(p => {
+    const ref = p.isRef ? `<span class="prize-ref">（参考：${p.refNote}）</span>` : '';
+    return `<div class="prize-row"><span class="prize-icon">🏆</span><span class="prize-label">${p.label}：</span><span class="prize-value">${p.value}</span>${ref}</div>`;
+  }).join('');
 }
 
-function nameHtml(d) {
-  const inner = (d.url && d.confirmed)
-    ? `<a href="${d.url}" target="_blank" rel="noopener">${d.name}</a>`
-    : `<span>${d.name}</span>`;
-  return `<div class="tour-name">${inner}</div>`;
+function renderRow(ev) {
+  const classes = [''].concat(ev.confirmed ? [] : ['unconfirmed']).concat(ev.past ? ['past'] : []).join(' ').trim();
+  const nameHtml = ev.url && ev.confirmed
+    ? `<a href="${ev.url}" target="_blank">${ev.name}</a>`
+    : `<span>${ev.name}</span>`;
+  const dateLabelHtml = ev.dateLabel ? `<div><span class="date-label">${ev.dateLabel}</span></div>` : '';
+  const feeSubHtml = ev.feeSub ? `<div class="fee-sub">${ev.feeSub}</div>` : '';
+  const noteHtml = ev.note ? `<div class="note">📌 ${ev.note}</div>` : '';
+  return `
+  <tr class="${classes}" data-tour="${ev.tour}">
+    <td class="date-cell">${ev.dateStr}${dateLabelHtml}</td>
+    <td><span class="tour-badge tour-${ev.tour}">${ev.tour}</span></td>
+    <td class="name-cell">
+      <div class="event-name">${nameHtml}</div>
+      <div class="venue">📍 ${ev.venue}</div>
+    </td>
+    <td class="fee-cell">
+      <div class="fee-main">${ev.fee}</div>
+      ${feeSubHtml}
+      ${renderPrizes(ev.prizes)}
+      ${noteHtml}
+    </td>
+    <td class="rate-cell">${renderRate(ev)}</td>
+  </tr>`;
 }
 
-function render(filter) {
-  const body = document.getElementById("calBody");
-  const rows = filter === "all" ? data : data.filter(d => d.tour === filter);
-  body.innerHTML = rows.map(d => {
-    const b = BADGE[d.tour] || {bg:"#EEE",color:"#333"};
-    const cls = d.confirmed ? "" : " unconfirmed";
-    return `<tr class="row${cls}" data-tour="${d.tour}">
-      <td class="col-period">
-        <div class="period-date">${d.dateStr}</div>
-        ${d.dateLabel ? `<div class="period-label">${d.dateLabel}</div>` : ""}
-      </td>
-      <td class="col-tour"><span class="badge" style="background:${b.bg};color:${b.color}">${d.tour}</span></td>
-      <td class="col-name">
-        ${nameHtml(d)}
-        <div class="venue">📍 ${d.venue}</div>
-        ${d.note ? `<div class="note">※ ${d.note}</div>` : ""}
-      </td>
-      <td class="col-fee">
-        <div class="fee-main">${d.fee}</div>
-        ${d.feeSub ? `<div class="fee-sub">${d.feeSub}</div>` : ""}
-        ${buildPrizeHtml(d.prizes)}
-      </td>
-      <td class="col-rate">${rateCell(d.tour)}</td>
-    </tr>`;
-  }).join("");
-}
+const sorted = [...events].sort((a,b) => a.sortKey - b.sortKey);
+document.getElementById('tableBody').innerHTML = sorted.map(renderRow).join('');
 
-render("all");
-
-document.getElementById("filters").addEventListener("click", e => {
-  const btn = e.target.closest(".filter-btn");
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('.pill');
   if (!btn) return;
-  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  render(btn.dataset.tour);
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const tour = btn.dataset.tour;
+  document.querySelectorAll('#tableBody tr').forEach(row => {
+    row.style.display = (tour === 'all' || row.dataset.tour === tour) ? '' : 'none';
+  });
 });
 </script>
 </body>
